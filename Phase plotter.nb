@@ -1,0 +1,280 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11521,        272]
+NotebookOptionsPosition[     10671,        251]
+NotebookOutlinePosition[     11065,        267]
+CellTagsIndexPosition[     11022,        264]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+19th August 2020
+This programme will be able to plot the phase plot for a set of linear \
+differential equations in x and y. 
+First we define a series of functions that will help to make additions to the \
+graph.\
+\>", "Text",
+ CellChangeTimes->{{3.8067622871521807`*^9, 3.806762303627132*^9}, {
+  3.806763449746842*^9, 3.806763467472808*^9}, {3.816795625640347*^9, 
+  3.816795626423321*^9}},ExpressionUUID->"9cfc4123-cb0e-4dc2-b375-\
+a62666dd6997"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"AddPoint", "[", "P_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"PointSize", "[", "0.02", "]"}], ",", 
+       RowBox[{"Point", "[", "P", "]"}]}], "}"}], ",", 
+     RowBox[{"Axes", "\[Rule]", " ", "True"}]}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AddArrow", "[", 
+    RowBox[{"P_", ",", "L_"}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{"Arrow", "[", 
+     RowBox[{"{", 
+      RowBox[{"P", ",", 
+       RowBox[{"P", "+", "L"}]}], "}"}], "]"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Sizeofwindow", "[", 
+   RowBox[{"xmin_", ",", "xmax_", ",", "ymin_", ",", "ymax_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"PointSize", "[", "0", "]"}], ",", 
+        RowBox[{"Point", "[", 
+         RowBox[{"{", 
+          RowBox[{"xmin", ",", "ymin"}], "}"}], "]"}]}], "}"}], ",", 
+      RowBox[{"Axes", "\[Rule]", " ", "True"}]}], "]"}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"PointSize", "[", "0", "]"}], ",", 
+        RowBox[{"Point", "[", 
+         RowBox[{"{", 
+          RowBox[{"xmax", ",", "ymax"}], "}"}], "]"}]}], "}"}], ",", 
+      RowBox[{"Axes", "\[Rule]", " ", "True"}]}], "]"}]}], 
+   "]"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.806762317066368*^9, 3.8067623791968184`*^9}, {
+  3.806762417047967*^9, 3.806762743438341*^9}, {3.806762776517057*^9, 
+  3.8067628227362623`*^9}, {3.806762879623776*^9, 3.806762997272641*^9}, {
+  3.806763088145376*^9, 3.806763207106776*^9}, {3.806771187275152*^9, 
+  3.8067711930164967`*^9}, {3.806771650499662*^9, 3.806771675590225*^9}, {
+  3.806822023294602*^9, 3.806822024243806*^9}},
+ CellLabel->"In[44]:=",ExpressionUUID->"e3e9bcfb-dc9b-4739-b5f0-14e7b97f5503"],
+
+Cell["\<\
+Now, define a function to lay down these points with the fixed spacing D \
+between them, a range of E and a scaling factor of L for the vectors \
+(otherwise it gets too cluttered). M is the matrix that describes the \
+coefficients.
+\
+\>", "Text",
+ CellChangeTimes->{{3.806763395642083*^9, 3.8067634156266117`*^9}, {
+  3.8067706613780203`*^9, 3.8067706731432953`*^9}, {3.8067725226990347`*^9, 
+  3.8067725625700893`*^9}, {3.816795612596713*^9, 
+  3.816795635169362*^9}},ExpressionUUID->"9dddfbfa-6b22-4aa4-953a-\
+1a7bc714ab65"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"VectorGraph", "[", 
+   RowBox[{"M_", ",", "D_", ",", "E_", ",", "L_"}], "]"}], " ", ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"x", ",", "y", ",", "X", ",", "Y"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Pairsforrange", "=", 
+      RowBox[{"Tuples", "[", 
+       RowBox[{
+        RowBox[{"Range", "[", 
+         RowBox[{
+          RowBox[{"-", "E"}], ",", "E", ",", "D"}], "]"}], ",", 
+        RowBox[{"{", "2", "}"}]}], "]"}]}], ";", " ", 
+     RowBox[{"(*", 
+      RowBox[{
+      "This", " ", "thing", " ", "about", " ", "tuples", " ", "allows", " ", 
+       "us", " ", "to", " ", "create", " ", "all", " ", "the", " ", "pairs", 
+       " ", "required", " ", "for", " ", "the", " ", "grid"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"Show", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"AddPoint", "[", "#", "]"}], "&"}], "/@", "Pairsforrange"}], 
+       ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"AddArrow", "[", 
+          RowBox[{"#", ",", 
+           RowBox[{
+            RowBox[{"M", ".", "#"}], "/", "L"}]}], "]"}], "&"}], "/@", 
+        "Pairsforrange"}], ",", 
+       RowBox[{"(*", 
+        RowBox[{
+        "This", " ", "pure", " ", "function", " ", "generates", " ", "the", 
+         " ", "points", " ", "and", " ", "the", " ", "arrows"}], "*)"}], " ", 
+       
+       RowBox[{"AxesLabel", "\[Rule]", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<Position of the particle\>\"", ",", 
+          "\"\<Velocity of the particle\>\""}], "}"}]}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"VectorGraph", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"a", ",", "b"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "b"}], ",", "a"}], "}"}]}], "}"}], ",", "0.5", ",", "5",
+      ",", " ", "10"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a", ",", "0", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"b", ",", "0", ",", "10"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.806763068920299*^9, 3.806763071795409*^9}, {
+   3.8067632570897007`*^9, 3.80676327047188*^9}, {3.806763302951666*^9, 
+   3.806763354949399*^9}, {3.806763387313949*^9, 3.806763388602598*^9}, {
+   3.806763741549815*^9, 3.806763791800229*^9}, {3.806763823130395*^9, 
+   3.8067639434806623`*^9}, {3.806770438787167*^9, 3.806770494771796*^9}, {
+   3.806770528406231*^9, 3.806770535110539*^9}, {3.806770625246458*^9, 
+   3.806770644345083*^9}, {3.8067707340853243`*^9, 3.806770747090013*^9}, {
+   3.8067707870033712`*^9, 3.806770851695962*^9}, {3.806770885267*^9, 
+   3.806770981679082*^9}, {3.806771018778544*^9, 3.8067710619001303`*^9}, {
+   3.806771104211753*^9, 3.806771170274165*^9}, {3.806771225591303*^9, 
+   3.806771226856852*^9}, {3.806771399946135*^9, 3.80677142544866*^9}, {
+   3.806771508928466*^9, 3.806771550811266*^9}, {3.806771624385572*^9, 
+   3.806771625948378*^9}, {3.806771699411673*^9, 3.806771738070668*^9}, {
+   3.806771837701004*^9, 3.8067719158455667`*^9}, {3.806772096661497*^9, 
+   3.8067720991396646`*^9}, {3.806772266363957*^9, 3.806772266547068*^9}, {
+   3.806772305268566*^9, 3.8067723180751266`*^9}, {3.806772385861189*^9, 
+   3.806772411054895*^9}, {3.80677245215191*^9, 3.8067724573857*^9}, {
+   3.8067724884385357`*^9, 3.806772494909821*^9}, {3.8067726189934597`*^9, 
+   3.806772668706048*^9}, {3.8067728430633698`*^9, 3.806772926517777*^9}, {
+   3.8067729691622047`*^9, 3.8067729840032063`*^9}, {3.806814383051099*^9, 
+   3.806814402235608*^9}, {3.8068189882477627`*^9, 3.8068189972505617`*^9}, {
+   3.8068190630755672`*^9, 3.806819105840151*^9}, {3.8068192843947477`*^9, 
+   3.8068192862941236`*^9}, {3.8068197059865437`*^9, 
+   3.8068197061547527`*^9}, {3.806820394453845*^9, 3.806820401140318*^9}, {
+   3.8068215921652412`*^9, 3.806821593072721*^9}, {3.806821722535557*^9, 
+   3.806821737462788*^9}, {3.806821984359913*^9, 3.80682199266057*^9}, {
+   3.806822419750535*^9, 3.8068224360176773`*^9}, {3.806822512816145*^9, 
+   3.806822554343445*^9}, 3.80684748751882*^9, {3.806847878060583*^9, 
+   3.8068479013876257`*^9}},
+ CellLabel->"In[47]:=",ExpressionUUID->"c2d3afdd-b8ba-4bf1-bcd8-8beae4c30d0e"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a$$ = 0., $CellContext`b$$ = 1.52, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`a$$], 0, 10}, {
+      Hold[$CellContext`b$$], 0, 10}}, Typeset`size$$ = {360., {130., 135.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a$$ = 0, $CellContext`b$$ = 0}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> $CellContext`VectorGraph[{{$CellContext`a$$, \
+$CellContext`b$$}, {-$CellContext`b$$, $CellContext`a$$}}, 0.5, 5, 10], 
+      "Specifications" :> {{$CellContext`a$$, 0, 10}, {$CellContext`b$$, 0, 
+         10}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{405., {189., 195.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.8067726702792187`*^9, {3.806772906622753*^9, 3.806772929637941*^9}, {
+   3.806772970864957*^9, 3.806772984812422*^9}, {3.806814388245863*^9, 
+   3.806814403855844*^9}, {3.806818993426342*^9, 3.806818997885275*^9}, {
+   3.8068190882717657`*^9, 3.806819106113441*^9}, 3.806819287673368*^9, 
+   3.806819712110691*^9, 3.806820401852263*^9, {3.806821727300375*^9, 
+   3.806821738148134*^9}, {3.806821985850853*^9, 3.8068219944792747`*^9}, {
+   3.806822423993034*^9, 3.8068224438664494`*^9}, {3.8068225147455482`*^9, 
+   3.8068225553486032`*^9}, 3.806847489608829*^9, 3.8068479021472063`*^9, 
+   3.816795576538108*^9},
+ CellLabel->"Out[48]=",ExpressionUUID->"2e54ca80-d901-4e60-b73a-7f397e841cf8"]
+}, Open  ]],
+
+Cell["", "Text",
+ CellChangeTimes->{{3.806772583794611*^9, 3.806772594647827*^9}, {
+  3.806772675493379*^9, 3.806772696102302*^9}, {3.816795603313582*^9, 
+  3.8167956111117373`*^9}},ExpressionUUID->"f058b657-a363-4418-be27-\
+be97eb3bc121"]
+},
+WindowSize->{808, 822},
+WindowMargins->{{Automatic, 302}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (March 18, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"1cbbfca2-42d1-43be-befe-b063c8406eac"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 459, 10, 81, "Text",ExpressionUUID->"9cfc4123-cb0e-4dc2-b375-a62666dd6997"],
+Cell[1020, 32, 2114, 54, 220, "Input",ExpressionUUID->"e3e9bcfb-dc9b-4739-b5f0-14e7b97f5503"],
+Cell[3137, 88, 536, 11, 81, "Text",ExpressionUUID->"9dddfbfa-6b22-4aa4-953a-1a7bc714ab65"],
+Cell[CellGroupData[{
+Cell[3698, 103, 4346, 92, 178, "Input",ExpressionUUID->"c2d3afdd-b8ba-4bf1-bcd8-8beae4c30d0e"],
+Cell[8047, 197, 2366, 45, 403, "Output",ExpressionUUID->"2e54ca80-d901-4e60-b73a-7f397e841cf8"]
+}, Open  ]],
+Cell[10428, 245, 239, 4, 35, "Text",ExpressionUUID->"f058b657-a363-4418-be27-be97eb3bc121"]
+}
+]
+*)
+
